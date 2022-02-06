@@ -3,7 +3,10 @@ import PropTypes from "prop-types";
 function GameGrid(props) {
   const { onCellClick, board } = props;
   return (
-    <div className="GameGrid">
+    <div
+      className="GameGrid"
+      style={{ gridTemplateColumns: `repeat(${board.level}, 1fr)` }}
+    >
       {board.getGameCells().map((value, index) => {
         return (
           <div

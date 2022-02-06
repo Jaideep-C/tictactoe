@@ -59,8 +59,8 @@ class Board {
     const level = this.level;
     // row wise
     for (let row = 0; row < level; row++) {
-      var str = cells.slice(level * row, level * (row + 1));
-      if (stringIsSet(str.join(""), level)) {
+      var str = cells.slice(level * row, level * (row + 1)).join("");
+      if (stringIsSet(str, level)) {
         this.winner = cells[level * row];
         return true;
       }
@@ -78,6 +78,8 @@ class Board {
     }
     /*
       diag wise
+      l2r->left to right
+      r2l->right to left
     */
     const l2r = cells.filter((val, ind) => ind % (level + 1) === 0).join("");
     if (stringIsSet(l2r, level)) {
@@ -99,7 +101,7 @@ class Board {
   stringIsSet(s, level) {
     if (s.length !== level)
       throw Error(`String "${s}" is of wrong length ${s.length}`);
-    return s === "XXX" || s === "OOO";
+    return s === Player.bot.repeat(level) || s === Player.user.repeat(level);
   }
 }
 

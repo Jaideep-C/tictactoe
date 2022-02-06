@@ -3,7 +3,7 @@ import TicTacToe from "./TicTacToe";
 function App() {
   return (
     <div className="App">
-      <TicTacToe level={3} />
+      <TicTacToe level={5} />
     </div>
   );
 }
