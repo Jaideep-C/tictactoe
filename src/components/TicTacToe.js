@@ -1,19 +1,36 @@
 import React, { useState } from "react";
 import Board from "../Data/Board";
+import Player from "../Data/PlayerEnum";
+import PropTypes from "prop-types";
 import GameGrid from "./GameGrid";
-function TicTacToe(props) {
-  const level = props.level;
+function TicTacToe({ level }) {
   const [board, setBoard] = useState(new Board(level));
   return (
     <div>
-      <GameGrid board={board} />
-      <br />
+      <p>
+        {board.winner
+          ? `${board.winner} is the winner`
+          : `${Player.nextMove(board.lastMoveBy)}'s turn`}
+      </p>
+      <GameGrid onCellClick={onCellClick} board={board} />
       <button onClick={resetBoard}>Reset</button>
     </div>
   );
   function resetBoard() {
-    board.resetBoard();
-    setBoard(Object.create(board));
+    var newBoard = getNewObject(board);
+    newBoard.resetBoard();
+    setBoard(newBoard);
+    console.log(newBoard);
+  }
+  function onCellClick(index) {
+    var newBoard = getNewObject(board);
+    newBoard.markCell(index);
+    setBoard(newBoard);
+  }
+  function getNewObject(obj) {
+    return Object.assign(Object.create(Object.getPrototypeOf(obj)), obj);
   }
 }
+TicTacToe.propTypes = { level: PropTypes.number.isRequired };
+
 export default TicTacToe;

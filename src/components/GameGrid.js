@@ -1,18 +1,14 @@
-import React, { useState } from "react";
 import "../styles/GameGrid.css";
+import PropTypes from "prop-types";
 function GameGrid(props) {
-  const [board, setBoard] = useState(props.board);
-  const onCellClick = (index) => {
-    board.markCell(index);
-    setBoard(Object.create(board));
-  };
+  const { onCellClick, board } = props;
   return (
     <div className="GameGrid">
       {board.getGameCells().map((value, index) => {
         return (
           <div
             className="GameCell"
-            key={index}
+            key={`${index},${value}`}
             onClick={() => onCellClick(index)}
           >
             {value}
@@ -22,5 +18,8 @@ function GameGrid(props) {
     </div>
   );
 }
-
+GameGrid.propTypes = {
+  onCellClick: PropTypes.func.isRequired,
+  board: PropTypes.object.isRequired,
+};
 export default GameGrid;
