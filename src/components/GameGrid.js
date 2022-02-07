@@ -7,7 +7,7 @@ function GameGrid(props) {
       className="GameGrid"
       style={{ gridTemplateColumns: `repeat(${board.level}, 1fr)` }}
     >
-      {board.getGameCells().map((value, index) => {
+      {board.cells.map((value, index) => {
         return (
           <div
             className="GameCell"

@@ -1,33 +1,26 @@
-import Player from "./PlayerEnum";
+import PLAYER from "./enums/PlayerEnum";
 class Board {
   cells;
   level;
   lastMoveBy;
   winner;
+  gameOver;
 
   constructor(level) {
     this.level = parseInt(level);
-    this.lastMoveBy = Player.bot;
-    this.activateCells();
+    this.reActivateCells();
+  }
+  reActivateCells() {
+    this.cells = Array(this.level * this.level).fill(PLAYER.default);
+    this.lastMoveBy = PLAYER.bot;
     this.winner = null;
-  }
-  activateCells() {
-    this.cells = Array(this.level * this.level);
-    this.cells.fill(Player.default);
-  }
-  resetBoard() {
-    this.activateCells();
-    this.lastMoveBy = Player.bot;
-    this.winner = null;
-  }
-  getGameCells() {
-    return this.cells;
+    this.gameOver = false;
   }
   isCellEmpty(at) {
-    return this.cells[at] === Player.default;
+    return this.cells[at] === PLAYER.default;
   }
   markCell(at) {
-    if (this.winner) return;
+    if (this.gameOver) return;
     // checking for Exception
     if (at >= this.cells.length)
       throw Error(
@@ -36,7 +29,7 @@ class Board {
     if (!this.isCellEmpty(at))
       throw Error(`Cannot mark because ${at} cell is occupied.`);
     // Marking a cell and updating lastMove
-    this.cells[at] = Player.nextMove(this.lastMoveBy);
+    this.cells[at] = PLAYER.nextMove(this.lastMoveBy);
     this.lastMoveBy = this.cells[at];
     this.isGameComplete();
   }
@@ -50,10 +43,10 @@ class Board {
       throw Error(`Cannot clear because  cell ${at} is already empty.`);
     // Clearing a cell and updating lastMove
     this.cells[at] = "";
-    this.lastMoveBy = this.lastMoveBy === Player.bot ? Player.user : Player.bot;
+    this.lastMoveBy = PLAYER.lastMove(this.lastMove);
   }
   isGameComplete() {
-    if (this.winner) return true;
+    if (this.gameOver) return this.gameOver;
     const cells = this.cells;
     const stringIsSet = this.stringIsSet;
     const level = this.level;
@@ -62,7 +55,8 @@ class Board {
       var str = cells.slice(level * row, level * (row + 1)).join("");
       if (stringIsSet(str, level)) {
         this.winner = cells[level * row];
-        return true;
+        this.gameOver = true;
+        return this.gameOver;
       }
     }
     // col wise
@@ -73,7 +67,8 @@ class Board {
 
       if (stringIsSet(str, level)) {
         this.winner = str[0];
-        return true;
+        this.gameOver = true;
+        return this.gameOver;
       }
     }
     /*
@@ -84,7 +79,8 @@ class Board {
     const l2r = cells.filter((val, ind) => ind % (level + 1) === 0).join("");
     if (stringIsSet(l2r, level)) {
       this.winner = l2r[0];
-      return true;
+      this.gameOver = true;
+      return this.gameOver;
     }
     const r2l = cells
       .filter(
@@ -94,14 +90,17 @@ class Board {
       .join("");
     if (stringIsSet(r2l, level)) {
       this.winner = r2l[0];
-      return true;
+      this.gameOver = true;
+      return this.gameOver;
     }
-    return false;
+    console.log(cells.includes(PLAYER.default));
+    this.gameOver = !cells.includes(PLAYER.default);
+    return this.gameOver;
   }
   stringIsSet(s, level) {
     if (s.length !== level)
       throw Error(`String "${s}" is of wrong length ${s.length}`);
-    return s === Player.bot.repeat(level) || s === Player.user.repeat(level);
+    return s === PLAYER.bot.repeat(level) || s === PLAYER.user.repeat(level);
   }
 }
 

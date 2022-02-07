@@ -13,6 +13,10 @@
       "webRoot": "${workspaceFolder}",
       "pathMappings": [
         {
+          "url": "file:///D:/code/GitHub/tictactoe/src",
+          "path": "${workspaceFolder}/src"
+        },
+        {
           "url": "file:///D:/code/tictactoe/src",
           "path": "${workspaceFolder}/src"
         }
