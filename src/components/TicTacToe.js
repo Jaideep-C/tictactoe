@@ -29,7 +29,9 @@ function TicTacToe({ level }) {
   function gameStatus() {
     if (board.winner) return `${board.winner} is the winner`;
     if (!board.winner && board.gameOver) return "It is a draw";
-    return `${PLAYER.nextMove(board.lastMoveBy)}'s turn`;
+    return `${
+      PLAYER.nextMove(board.lastMoveBy) === PLAYER.user ? "Your" : "Bot's"
+    } turn`;
   }
 }
 TicTacToe.propTypes = { level: PropTypes.number.isRequired };
