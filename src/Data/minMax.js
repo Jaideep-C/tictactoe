@@ -3,7 +3,11 @@ const minimax = (board, isItAiTurn) => {
   if (board.gameOver) return mapResultState(board.winner);
   if (isItAiTurn) {
     var bestScore = -Infinity;
-    for (let at = 0; at < board.cells.length; at++) {
+    for (
+      let at = board.cells.findIndex((cell) => cell === PLAYER.default);
+      at < board.cells.length;
+      at++
+    ) {
       if (!board.isCellEmpty(at)) continue;
       board.markCell(at);
       const score = minimax(board, false);
@@ -13,7 +17,11 @@ const minimax = (board, isItAiTurn) => {
     return bestScore;
   } else {
     var worstScore = Infinity;
-    for (let at = 0; at < board.cells.length; at++) {
+    for (
+      let at = board.cells.findIndex((cell) => cell === PLAYER.default);
+      at < board.cells.length;
+      at++
+    ) {
       if (!board.isCellEmpty(at)) continue;
       board.markCell(at);
       const score = minimax(board, true);

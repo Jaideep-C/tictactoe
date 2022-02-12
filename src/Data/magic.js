@@ -1,9 +1,11 @@
 import minMax from "./minMax";
-const botMove = (board) => {
+import PLAYER from "./enums/PlayerEnum";
+export const minMaxMove = (board) => {
   var bestMove;
   var bestScore = -Infinity;
   for (let at = 0; at < board.cells.length; at++) {
     if (!board.isCellEmpty(at)) continue;
+    if (bestScore >= 10) break;
     board.markCell(at);
     var score = minMax(board, false);
     board.clearCell(at);
@@ -14,4 +16,6 @@ const botMove = (board) => {
   }
   return bestMove;
 };
-export default botMove;
+export const randomMove = (board) => {
+  return board.cells.findIndex((cell) => cell === PLAYER.default);
+};
