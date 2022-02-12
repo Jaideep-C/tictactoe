@@ -42,8 +42,10 @@ class Board {
     if (this.isCellEmpty())
       throw Error(`Cannot clear because  cell ${at} is already empty.`);
     // Clearing a cell and updating lastMove
-    this.cells[at] = "";
-    this.lastMoveBy = PLAYER.lastMove(this.lastMove);
+    this.cells[at] = PLAYER.default;
+    this.lastMoveBy = PLAYER.lastMove(this.lastMoveBy);
+    this.gameOver = false;
+    this.isGameComplete();
   }
   isGameComplete() {
     if (this.gameOver) return this.gameOver;
@@ -93,8 +95,8 @@ class Board {
       this.gameOver = true;
       return this.gameOver;
     }
-    console.log(cells.includes(PLAYER.default));
     this.gameOver = !cells.includes(PLAYER.default);
+    this.winner = null;
     return this.gameOver;
   }
   stringIsSet(s, level) {

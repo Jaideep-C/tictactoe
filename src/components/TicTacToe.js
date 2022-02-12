@@ -3,6 +3,8 @@ import Board from "../Data/Board";
 import PLAYER from "../Data/enums/PlayerEnum";
 import PropTypes from "prop-types";
 import GameGrid from "./GameGrid";
+// eslint-disable-next-line no-unused-vars
+import { minMaxMove, randomMove } from "../Data/magic";
 function TicTacToe({ level }) {
   const [board, setBoard] = useState(new Board(level));
   return (
@@ -21,6 +23,7 @@ function TicTacToe({ level }) {
   function onCellClick(index) {
     var newBoard = getNewObject(board);
     newBoard.markCell(index);
+    newBoard.markCell(minMaxMove(newBoard));
     setBoard(newBoard);
   }
   function getNewObject(obj) {
@@ -29,7 +32,9 @@ function TicTacToe({ level }) {
   function gameStatus() {
     if (board.winner) return `${board.winner} is the winner`;
     if (!board.winner && board.gameOver) return "It is a draw";
-    return `${PLAYER.nextMove(board.lastMoveBy)}'s turn`;
+    return `${
+      PLAYER.nextMove(board.lastMoveBy) === PLAYER.user ? "Your" : "Bot's"
+    } turn`;
   }
 }
 TicTacToe.propTypes = { level: PropTypes.number.isRequired };
