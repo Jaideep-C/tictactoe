@@ -1,5 +1,6 @@
 import "../styles/GameGrid.css";
 import PropTypes from "prop-types";
+import PLAYER from "../Data/enums/PlayerEnum";
 function GameGrid(props) {
   const { onCellClick, board } = props;
   return (
@@ -12,6 +13,7 @@ function GameGrid(props) {
           <div
             className="GameCell"
             key={`${index},${value}`}
+            style={{ color: `${getCellColor(value)}` }}
             onClick={() => onCellClick(index)}
           >
             {value}
@@ -20,6 +22,16 @@ function GameGrid(props) {
       })}
     </div>
   );
+  function getCellColor(val) {
+    switch (val) {
+      case PLAYER.bot:
+        return "red";
+      case PLAYER.user:
+        return "green";
+      default:
+        return "black";
+    }
+  }
 }
 GameGrid.propTypes = {
   onCellClick: PropTypes.func.isRequired,

@@ -23,6 +23,12 @@ function TicTacToe({ level }) {
   function onCellClick(index) {
     var newBoard = getNewObject(board);
     newBoard.markCell(index);
+    /*
+      Need to implement an interface where the user can select the mode
+      Need to implement the alphaBetaMove()
+    */
+    // newBoard.markCell(alphaBetaMove());
+    // newBoard.markCell(randomMove(newBoard));
     newBoard.markCell(minMaxMove(newBoard));
     setBoard(newBoard);
   }
