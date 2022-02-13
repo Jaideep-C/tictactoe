@@ -5,7 +5,7 @@ export const minMaxMove = (board) => {
   var bestScore = -Infinity;
   for (let at = 0; at < board.cells.length; at++) {
     if (!board.isCellEmpty(at)) continue;
-    if (bestScore >= 10) break;
+    // if (bestScore >= 10) break;
     board.markCell(at);
     var score = minMax(board, false);
     board.clearCell(at);
